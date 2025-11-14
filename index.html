@@ -3,24 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mariscos Frescos - Tu Tienda Online</title>
+    <title>Terminal94 - Tienda Marina</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* --- ESTILOS CSS INCRUSTADOS --- */
-        
-        /* Estilos generales */
+        /* --- ESTILOS --- */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f8fa;
             color: #333;
         }
 
-        /* Encabezado y Navegación */
         header {
-            background-color: #005f73; /* <-- Color principal */
+            background-color: #005f73;
             color: white;
             padding: 1rem 2rem;
             display: flex;
@@ -29,31 +26,19 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
+        header h1 { margin: 0; font-size: 1.8rem; }
 
-        header nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 1.5rem;
-            font-weight: bold;
-        }
-
-        .carrito-icono {
-            position: relative;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
+        /* Icono del carrito */
+        .carrito-container { position: relative; cursor: pointer; }
+        .carrito-icono { font-size: 1.5rem; color: white; }
         #carrito-contador {
             position: absolute;
             top: -8px;
-            right: -12px;
-            background-color: #ee6c4d; /* <-- Color de acento */
+            right: -10px;
+            background-color: #ee6c4d;
             color: white;
             border-radius: 50%;
             padding: 2px 6px;
@@ -61,389 +46,206 @@
             font-weight: bold;
         }
 
-        /* Contenido Principal */
         main {
             padding: 2rem;
             max-width: 1200px;
             margin: auto;
         }
 
-        /* Sección Productos */
+        h2.titulo-seccion {
+            text-align: center;
+            color: #005f73;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Cuadrícula de productos */
         .grid-productos {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         .producto-card {
             background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
             text-align: center;
-            padding: 1rem;
-            transition: transform 0.2s;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .producto-card:hover {
-            transform: translateY(-5px);
-        }
+        .producto-card:hover { transform: translateY(-5px); }
 
+        /* Estilo de las imágenes */
         .producto-card img {
-            max-width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 4px;
+            width: 100%;
+            height: 250px; /* Altura fija para que se vean uniformes */
+            object-fit: cover; /* Recorta la imagen para llenar el espacio sin deformar */
         }
+
+        .info-producto { padding: 1.5rem; }
 
         .producto-card h3 {
             margin: 0.5rem 0;
-            color: #005f73; /* <-- Color principal */
+            color: #005f73;
+            font-size: 1.2rem;
         }
 
         .precio {
-            font-size: 1.2rem;
+            display: block;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #0a9396;
-            margin: 0.5rem 0;
+            margin: 1rem 0;
         }
 
         .btn-agregar {
-            background-color: #ee6c4d; /* <-- Color de acento */
+            background-color: #ee6c4d;
             color: white;
             border: none;
-            padding: 0.75rem 1.25rem;
-            border-radius: 5px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.2s;
-        }
-
-        .btn-agregar:hover {
-            background-color: #d95a3b;
-        }
-
-        /* Secciones Info (Promos y Contacto) */
-        .seccion-info {
-            background-color: white;
-            margin-top: 2rem;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .seccion-info h2 {
-            color: #005f73; /* <-- Color principal */
-            border-bottom: 2px solid #e0f7fa;
-            padding-bottom: 0.5rem;
-        }
-
-        .promo-item {
-            border-bottom: 1px dashed #ccc;
-            padding: 1rem 0;
-        }
-        .precio-promo {
-            font-weight: bold;
-            color: #ee6c4d; /* <-- Color de acento */
-            font-size: 1.1rem;
-        }
-
-        .seccion-info ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .seccion-info li {
-            margin-bottom: 0.5rem;
-        }
-
-
-        /* Modal del Carrito */
-        .modal {
-            display: none; /* Oculto por defecto */
-            position: fixed;
-            z-index: 200;
-            left: 0;
-            top: 0;
             width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            transition: background 0.3s;
         }
 
-        .modal-contenido {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 2rem;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 10px;
-            position: relative;
-        }
+        .btn-agregar:hover { background-color: #d95a3b; }
 
-        .cerrar {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .carrito-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #eee;
-            padding: 0.5rem 0;
-        }
-        .carrito-item span {
-            font-weight: bold;
-        }
-
-        .total {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: right;
-            margin-top: 1rem;
-            color: #005f73;
-        }
-
-        .btn-pedido {
-            background-color: #25D366; /* Color de WhatsApp */
+        footer {
+            background-color: #005f73;
             color: white;
-            border: none;
-            padding: 1rem;
-            width: 100%;
-            font-size: 1.2rem;
-            font-weight: bold;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-logo {
+            width: 80px; /* Tamaño del logo en el pie de página */
+            height: auto;
+            margin-top: 10px;
             border-radius: 5px;
-            cursor: pointer;
-            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1><i class="fas fa-fish"></i> Mariscos del Día</h1>
-        <nav>
-            <a href="#productos">Productos</a>
-            <a href="#promociones">Promociones</a>
-            <a href="#contacto">Contacto</a>
-        </nav>
-        <div class="carrito-icono" onclick="mostrarCarrito()">
-            <i class="fas fa-shopping-cart"></i>
+        <h1>Terminal94</h1>
+        <div class="carrito-container">
+            <i class="fas fa-shopping-cart carrito-icono"></i>
             <span id="carrito-contador">0</span>
         </div>
     </header>
 
     <main>
-        <section id="productos">
-            <h2>Nuestros Productos</h2>
-            <div id="lista-productos" class="grid-productos">
+        <h2 class="titulo-seccion">Nuestros Productos Frescos</h2>
+        
+        <div class="grid-productos">
+            
+            <div class="producto-card">
+                <img src="producto1.jpg.jfif" alt="Anillos de Calamar">
+                <div class="info-producto">
+                    <h3>Anillos de Calamar</h3>
+                    <span class="precio">S/ 35.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
                 </div>
-        </section>
-
-        <section id="promociones" class="seccion-info">
-            <h2><i class="fas fa-star"></i> Promociones de la Semana</h2>
-            <div class="promo-item">
-                <h3>Pack Familiar Marino</h3>
-                <p>2kg de Merluza + 1kg de Langostinos + 500g de Calamares. ¡Precio especial!</p>
-                <span class="precio-promo">$35.00</span>
             </div>
-            <div class="promo-item">
-                <h3>Jueves de Paella</h3>
-                <p>Todo lo que necesitas para tu paella (Arroz, azafrán, mariscos surtidos) con 15% de descuento.</p>
-                <span class="precio-promo">15% OFF</span>
-            </div>
-        </section>
 
-        <section id="contacto" class="seccion-info">
-            <h2><i class="fas fa-phone"></i> Contacto</h2>
-            <p>Haz tu pedido o consulta directamente:</p>
-            <ul>
-                <li><strong>WhatsApp:</strong> +51 999 888 777</li>
-                <li><strong>Email:</strong> pedidos@mariscosdeldia.com</li>
-                <li><strong>Dirección:</strong> Av. El Mar 123, Muelle Principal</li>
-            </ul>
-            <p>Horario de atención: Lunes a Sábado de 8:00am a 5:00pm</p>
-        </section>
+            <div class="producto-card">
+                <img src="producto2.jpg" alt="Cangrejo">
+                <div class="info-producto">
+                    <h3>Cangrejo Fresco</h3>
+                    <span class="precio">S/ 25.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <img src="producto3.jpg" alt="Conchas de Abanico">
+                <div class="info-producto">
+                    <h3>Conchas de Abanico</h3>
+                    <span class="precio">S/ 40.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <img src="producto4.jpg" alt="Filete de Corvina">
+                <div class="info-producto">
+                    <h3>Filete de Corvina</h3>
+                    <span class="precio">S/ 55.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <img src="producto5jpg.jfif" alt="Erizo">
+                <div class="info-producto">
+                    <h3>Erizo de Mar</h3>
+                    <span class="precio">S/ 30.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <img src="producto6.jpg" alt="Langosta Entera">
+                <div class="info-producto">
+                    <h3>Langosta Entera</h3>
+                    <span class="precio">S/ 120.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <img src="producto7.jpg" alt="Colas de Langosta">
+                <div class="info-producto">
+                    <h3>Colas de Langosta</h3>
+                    <span class="precio">S/ 140.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <img src="producto8.jpg" alt="Langostinos">
+                <div class="info-producto">
+                    <h3>Langostinos Limpios</h3>
+                    <span class="precio">S/ 45.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <img src="producto9.jpg" alt="Lenguado">
+                <div class="info-producto">
+                    <h3>Filete de Lenguado</h3>
+                    <span class="precio">S/ 60.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="producto-card">
+                <img src="producto10.jpg" alt="Mixtura de Mariscos">
+                <div class="info-producto">
+                    <h3>Mixtura de Mariscos</h3>
+                    <span class="precio">S/ 38.00</span>
+                    <button class="btn-agregar">Agregar al Carrito</button>
+                </div>
+            </div>
+
+        </div>
     </main>
 
-    <div id="modal-carrito" class="modal">
-        <div class="modal-contenido">
-            <span class="cerrar" onclick="ocultarCarrito()">&times;</span>
-            <h2><i class="fas fa-shopping-cart"></i> Tu Pedido</h2>
-            <div id="carrito-items">
-                </div>
-            <p class="total">Total: <span id="carrito-total">$0.00</span></p>
-            <button classs="btn-pedido" onclick="finalizarPedido()">
-                <i class="fab fa-whatsapp"></i> Finalizar Pedido por WhatsApp
-            </button>
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2025 Terminal94 - Calidad Marina en tu Mesa</p>
+        <img src="producto11.jpg" alt="Logo Terminal94" class="footer-logo">
+    </footer>
 
-
-    <script>
-        // --- JAVASCRIPT INCRUSTADO ---
-
-        // --------- CONFIGURACIÓN INICIAL ---------
-        // !! IMPORTANTE: Define tu número de WhatsApp aquí
-        const TU_NUMERO_WHATSAPP = "51999888777"; 
-
-        // Base de datos simulada de productos
-        // !! RECUERDA CAMBIAR ESTO:
-        // Usa la "Opción B" que te expliqué: Sube tus imágenes a una carpeta
-        // "imagenes" en GitHub y enlaza a "imagenes/merluza.jpg"
-        const productos = [
-            { 
-                id: 1, 
-                nombre: "Filete de Merluza", 
-                precio: 12.50, 
-                imagen: "https://via.placeholder.com/300x200.png?text=Merluza" // Reemplaza con tus fotos
-            },
-            { 
-                id: 2, 
-                nombre: "Langostinos Enteros (Kg)", 
-                precio: 25.00, 
-                imagen: "https://via.placeholder.com/300x200.png?text=Langostinos"
-            },
-            { 
-                id: 3, 
-                nombre: "Calamares (Kg)", 
-                precio: 18.00, 
-                imagen: "https://via.placeholder.com/300x200.png?text=Calamares"
-            },
-            { 
-                id: 4, 
-                nombre: "Conchas de Abanico (Docena)", 
-                precio: 15.00, 
-                imagen: "https://via.placeholder.com/300x200.png?text=Conchas"
-            }
-        ];
-
-        // Carrito de compras
-        let carrito = [];
-
-        // --------- FUNCIONES PRINCIPALES ---------
-
-        /**
-         * Dibuja los productos en la página
-         */
-        function renderizarProductos() {
-            const listaProductos = document.getElementById('lista-productos');
-            listaProductos.innerHTML = ''; // Limpiar la lista
-
-            productos.forEach(producto => {
-                const card = document.createElement('div');
-                card.className = 'producto-card';
-                
-                card.innerHTML = `
-                    <img src="${producto.imagen}" alt="${producto.nombre}">
-                    <h3>${producto.nombre}</h3>
-                    <p class="precio">$${producto.precio.toFixed(2)}</p>
-                    <button class="btn-agregar" onclick="agregarAlCarrito(${producto.id})">
-                        <i class="fas fa-cart-plus"></i> Agregar
-                    </button>
-                `;
-                listaProductos.appendChild(card);
-            });
-        }
-
-        /**
-         * Agrega un producto al carrito
-         */
-        function agregarAlCarrito(idProducto) {
-            const itemEncontrado = carrito.find(item => item.id === idProducto);
-
-            if (itemEncontrado) {
-                itemEncontrado.cantidad++;
-            } else {
-                const producto = productos.find(p => p.id === idProducto);
-                carrito.push({
-                    id: producto.id,
-                    nombre: producto.nombre,
-                    precio: producto.precio,
-                    cantidad: 1
-                });
-            }
-            renderizarCarrito();
-        }
-
-        /**
-         * Dibuja los items del carrito en el modal
-         */
-        function renderizarCarrito() {
-            const carritoItems = document.getElementById('carrito-items');
-            const carritoTotal = document.getElementById('carrito-total');
-            const carritoContador = document.getElementById('carrito-contador');
-            let total = 0;
-            let totalItems = 0;
-
-            carritoItems.innerHTML = ''; 
-
-            if (carrito.length === 0) {
-                carritoItems.innerHTML = '<p>Tu carrito está vacío.</p>';
-            } else {
-                carrito.forEach(item => {
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'carrito-item';
-                    itemElement.innerHTML = `
-                        <span>${item.cantidad} x ${item.nombre}</span>
-                        <span>$${(item.precio * item.cantidad).toFixed(2)}</span>
-                    `;
-                    carritoItems.appendChild(itemElement);
-                    
-                    total += item.precio * item.cantidad;
-                    totalItems += item.cantidad;
-                });
-            }
-
-            carritoTotal.textContent = `$${total.toFixed(2)}`;
-            carritoContador.textContent = totalItems;
-        }
-
-        /**
-         * Genera el mensaje de WhatsApp y abre la aplicación
-         */
-        function finalizarPedido() {
-            if (carrito.length === 0) {
-                alert("Tu carrito está vacío. Agrega productos para finalizar el pedido.");
-                return;
-            }
-
-            let mensaje = "¡Hola! Quisiera hacer el siguiente pedido:\n\n";
-            let total = 0;
-
-            carrito.forEach(item => {
-                mensaje += `* ${item.cantidad} x ${item.nombre} - $${(item.precio * item.cantidad).toFixed(2)}\n`;
-                total += item.precio * item.cantidad;
-            });
-
-            mensaje += `\n*Total a pagar: $${total.toFixed(2)}*`;
-
-            const mensajeCodificado = encodeURIComponent(mensaje);
-            const urlWhatsApp = `https://wa.me/${TU_NUMERO_WHATSAPP}?text=${mensajeCodificado}`;
-
-            window.open(urlWhatsApp, '_blank');
-        }
-
-        // --- Funciones del Modal (Mostrar/Ocultar) ---
-        function mostrarCarrito() {
-            document.getElementById('modal-carrito').style.display = 'block';
-            renderizarCarrito(); // Asegurarse de que esté actualizado al abrir
-        }
-
-        function ocultarCarrito() {
-            document.getElementById('modal-carrito').style.display = 'none';
-        }
-
-        // --- Inicializar la tienda ---
-        // Nos aseguramos de que el HTML esté cargado antes de dibujar los productos
-        document.addEventListener('DOMContentLoaded', () => {
-            renderizarProductos();
-        });
-        
-    </script>
 </body>
 </html>
